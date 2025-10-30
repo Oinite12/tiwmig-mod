@@ -173,7 +173,7 @@ SMODS.Joker { key = "french_fries",
         end
 
         if context.after then
-            poutine_component_countdown(card, G.C.CHIPS)
+            return poutine_component_countdown(card, G.C.CHIPS)
         end
     end,
 }
@@ -236,7 +236,7 @@ SMODS.Joker { key = "gravy",
         end
 
         if context.after then
-            poutine_component_countdown(card, G.C.MULT)
+            return poutine_component_countdown(card, G.C.MULT)
         end
     end,
 }
@@ -300,7 +300,7 @@ SMODS.Joker { key = "cheese_curds",
         end
 
         if context.after then
-            poutine_component_countdown(card, G.C.MONEY)
+            return poutine_component_countdown(card, G.C.MONEY)
         end
     end,
 }
@@ -358,7 +358,7 @@ SMODS.Joker { key = "frite_sauce",
         end
 
         if context.after then
-            poutine_component_countdown(card, G.C.CHIPS)
+            return poutine_component_countdown(card, G.C.CHIPS)
         end
     end,
 }
@@ -416,7 +416,7 @@ SMODS.Joker { key = "cheesy_gravy",
         end
 
         if context.after then
-            poutine_component_countdown(card, G.C.MULT)
+            return poutine_component_countdown(card, G.C.MULT)
         end
     end,
 }
@@ -475,7 +475,7 @@ SMODS.Joker { key = "chips_n_cheese",
         end
 
         if context.after then
-            poutine_component_countdown(card, G.C.MONEY)
+            return poutine_component_countdown(card, G.C.MONEY)
         end
     end,
 }
@@ -530,7 +530,7 @@ SMODS.Joker { key = "poutine",
         end
 
         if context.after then
-            poutine_component_countdown(card, G.C.PURPLE)
+            return poutine_component_countdown(card, G.C.PURPLE)
         end
     end,
 }
