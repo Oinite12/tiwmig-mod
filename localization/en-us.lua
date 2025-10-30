@@ -6,9 +6,17 @@ Joker = { -- START OF JOKERS
     j_tiwmig_generic_brand = {
         name = "Generic Brand Joker",
         text = {
-            "All shop prices",
-            "are {C:attention}#1#%{} off",
-            "{C:inactive}(rounded up){}",
+            "All shop prices are {C:money}$#1# {}off",
+            "This discount decreases by {C:money}$1",
+            "when a boss blind is defeated"
+        }
+    },
+    j_tiwmig_generic_brand_gouged = {
+        name = "Generic Brand Joker",
+        text = {
+            "All shop prices are {C:money}$#1# {}higher",
+            "This gouge increases by {C:money}$1",
+            "when a boss blind is defeated"
         }
     },
     j_tiwmig_bag_of_chips = {

@@ -6,15 +6,20 @@ local simple_event = F_TWMG.add_simple_event
 SMODS.Joker { key = "generic_brand",
     config = {
         extra = {
-            discount = 0.30,
+            discount = 3,
         },
     },
 
     loc_vars = function(self, info_queue, card)
+        local key = nil
+        if card.ability.extra.discount < 0 then key = "j_tiwmig_generic_brand_gouged" end
         -- "All shop prices are #1#% off (rounded up)"
-        return {vars = {
-            card.ability.extra.discount*100
-        }}
+        return {
+            key = key,
+            vars = {
+                card.ability.extra.discount
+            }
+        }
     end,
 
     atlas = "jokers",
@@ -29,55 +34,24 @@ SMODS.Joker { key = "generic_brand",
     eternal_compat = true,
     perishable_compat = true,
 
-    -- This is what sets the cost; setting as separate function to reduce amount copypasted
-    ability_function = function(self)
-        -- Go through each Generic Brand and add successive discounts
-        local function discount_group(group)
-            if group and group.cards then for k,v in pairs(group.cards) do
-                -- Reset cost to normal value (including discount vouchers) to start proper discounting
-                v:set_cost()
-                local calc_cost = v.cost
-
-                -- THEN apply discounts
-                local generics = SMODS.find_card("j_tiwmig_generic_brand")
-                for __,generic in pairs(generics) do
-                    calc_cost = calc_cost*(1-generic.ability.extra.discount)
-                end
-
-                -- Finally do floor
-                v.cost = math.ceil(calc_cost)
-            end end
-        end
-        -- With the above function we can just call it repeatedly for each group with minimal copypasting
-        -- Event so that it only triggers right after the Joker is added
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                discount_group(G.shop_jokers)
-                discount_group(G.shop_booster)
-                discount_group(G.shop_vouchers)
-                return true
-            end
-        }))
-    end,
-
     add_to_deck = function(self, card, from_debuff)
-        -- Must refer off of "self", the card's Platonic ideal, to use the function
-        self.ability_function(self) -- See? Less copypasting for the same effect -every time-
+        F_TWMG.set_generic_discount()
     end,
 
     remove_from_deck = function(self, card, from_debuff)
-        self.ability_function(self)
+        F_TWMG.set_generic_discount()
     end,
 
     calculate = function(self, card, context)
-        if (
-            context.reroll_shop or
-            context.starting_shop or
-            (context.buying_card and context.card.ability.set == "Voucher") -- Discount vouchers
-        ) then
-            self.ability_function(self)
+        if context.beat_boss then
+            card.ability.extra.discount = card.ability.extra.discount - 1
+            simple_event(nil, nil, function ()
+                card:juice_up()
+                play_sound('generic1', 1, 0.75)
+            end)
         end
     end
+    -- Additional functionality in calc_on_mod
 }
 
 ---------------

@@ -49,6 +49,27 @@ F_TWMG.has_cards = function (keys, count_debuffed)
     return false
 end
 
+F_TWMG.set_generic_discount = function ()
+    local function discount_group(group)
+        if group and group.cards then for _,shop_card in pairs(group.cards) do
+            -- Reset cost to normal value (including discount vouchers) to start proper discounting
+            shop_card:set_cost()
+
+            -- THEN apply discounts
+            local generics = SMODS.find_card("j_tiwmig_generic_brand")
+            for _,generic in pairs(generics) do
+                shop_card.cost = shop_card.cost - generic.ability.extra.discount
+            end
+        end end
+    end
+
+    simple_event(nil, nil, function ()
+        discount_group(G.shop_jokers)
+        discount_group(G.shop_booster)
+        discount_group(G.shop_vouchers)
+    end)
+end
+
 
 
 ------------------------
