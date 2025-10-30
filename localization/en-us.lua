@@ -98,8 +98,20 @@ Joker = { -- START OF JOKERS
             "Shoot on play; only {C:red}live{}",
             "shells give {X:mult,C:white}X#2#{} Mult",
             "{s:0.1,C:white}----",
-            "{s:0.7,C:inactive}#3# blank shell#4#. {s:0.7,C:red}#5# live.",
-            "{C:red}#6# shells remain{}"
+            "{s:0.7,C:inactive}#3# blank shells. {s:0.7,C:red}#4# live.",
+            "{C:red}#5# shells remain{}"
+        }
+    },
+    j_tiwmig_shotgun_singular = {
+        name = "Shotgun",
+        text = {
+            "2-#1# {C:inactive}blank{} and {C:red}live{} shells are",
+            "loaded in a random sequence",
+            "Shoot on play; only {C:red}live{}",
+            "shells give {X:mult,C:white}X#2#{} Mult",
+            "{s:0.1,C:white}----",
+            "{s:0.7,C:inactive}#3# blank shell. {s:0.7,C:red}#4# live.",
+            "{C:red}#5# shells remain{}"
         }
     },
     j_tiwmig_large_small_boulder = {
@@ -131,10 +143,18 @@ Joker = { -- START OF JOKERS
         name = "Spy Phone",
         text = {
             "During scoring, retriggers",
-            "the {C:attention}#1# Joker{}",
+            "the {C:attention}left Joker{}",
             "Side switches at end of round",
         }
-    }
+    },
+    j_tiwmig_spy_phone_right = {
+        name = "Spy Phone",
+        text = {
+            "During scoring, retriggers",
+            "the {C:attention}right Joker{}",
+            "Side switches at end of round",
+        }
+    },
 }, -- END OF JOKERS
 
 ---- END OF DESCRIPTIONS

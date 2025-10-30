@@ -27,8 +27,8 @@ SMODS.DrawStep({
             self.config.center.pos.layers and
             (self.config.center.discovered or self.bypass_discovery_center)
         ) then
-            for i = 1, self.children[G_TWMG.layer_name("main",1)].layercount do
-                local layer = self.children[G_TWMG.layer_name("main",i)]
+            for i = 1, self.children[F_TWMG.layer_name("main",1)].layercount do
+                local layer = self.children[F_TWMG.layer_name("main",i)]
                 -- incorporate i to offset layers a bit so it's not all static
                 local scale_mod = 0.03 + (i/100)/2 + 0.02*math.sin(1.8*G.TIMERS.REAL)
                 local rotate_mod = 0.02*math.sin(1.219*G.TIMERS.REAL + (i-1)/2)
@@ -74,8 +74,8 @@ SMODS.DrawStep({
             self.config.center.soul_pos.layers and
             (self.config.center.discovered or self.bypass_discovery_center)
         ) then
-            for i = 1, self.children[G_TWMG.layer_name("soul",1)].layercount do
-                local layer = self.children[G_TWMG.layer_name("soul",i)]
+            for i = 1, self.children[F_TWMG.layer_name("soul",1)].layercount do
+                local layer = self.children[F_TWMG.layer_name("soul",i)]
                 -- incorporate i to offset layers a bit so it's not all static
                 local scale_mod = 0.07 + (i/100)/2 + 0.02*math.sin(1.8*G.TIMERS.REAL)
                 local rotate_mod = 0.05*math.sin(1.219*G.TIMERS.REAL + (i-1)/2)
@@ -116,8 +116,8 @@ SMODS.DrawStep({
 -- Only 25 layers are properly supported (configured at top). Without the cap, sprites won't properly stick to the main card
 -- Layer count needs to be specified because keys are specifically targetted, not dynamically adjustable to each card
 for i = 1,max_layers do
-    SMODS.draw_ignore_keys[G_TWMG.layer_name("main",i)] = true
-    SMODS.draw_ignore_keys[G_TWMG.layer_name("soul",i)] = true
+    SMODS.draw_ignore_keys[F_TWMG.layer_name("main",i)] = true
+    SMODS.draw_ignore_keys[F_TWMG.layer_name("soul",i)] = true
 end
 
 -- Appending to Card:set_sprites so multi-layers are detected
@@ -128,7 +128,7 @@ function Card:set_sprites(_center, _front)
     -- Main layers - AFFECTED by edition
     if _center and _center.pos and _center.pos.layers then
         for i,coords in pairs(_center.pos.layers) do if i <= max_layers then
-            self.children[G_TWMG.layer_name("main",i)] = Sprite(
+            self.children[F_TWMG.layer_name("main",i)] = Sprite(
                 self.T.x,
                 self.T.y,
                 self.T.w,
@@ -136,18 +136,18 @@ function Card:set_sprites(_center, _front)
                 G.ASSET_ATLAS[_center.atlas or _center.set],
                 coords
             )
-            self.children[G_TWMG.layer_name("main",i)].role.draw_major = self
-            self.children[G_TWMG.layer_name("main",i)].states.hover.can = false
-            self.children[G_TWMG.layer_name("main",i)].states.click.can = false
+            self.children[F_TWMG.layer_name("main",i)].role.draw_major = self
+            self.children[F_TWMG.layer_name("main",i)].states.hover.can = false
+            self.children[F_TWMG.layer_name("main",i)].states.click.can = false
         end end
         -- First layer stores info on how many layers actually present
-        self.children[G_TWMG.layer_name("main",1)].layercount = #_center.pos.layers
+        self.children[F_TWMG.layer_name("main",1)].layercount = #_center.pos.layers
     end
 
     -- Soul layers - NOT affected by edition
     if _center and _center.soul_pos and _center.soul_pos.layers then
         for i,coords in pairs(_center.soul_pos.layers) do if i <= max_layers then
-            self.children[G_TWMG.layer_name("soul",i)] = Sprite(
+            self.children[F_TWMG.layer_name("soul",i)] = Sprite(
                 self.T.x,
                 self.T.y,
                 self.T.w,
@@ -155,11 +155,11 @@ function Card:set_sprites(_center, _front)
                 G.ASSET_ATLAS[_center.atlas or _center.set],
                 coords
             )
-            self.children[G_TWMG.layer_name("soul",i)].role.draw_major = self
-            self.children[G_TWMG.layer_name("soul",i)].states.hover.can = false
-            self.children[G_TWMG.layer_name("soul",i)].states.click.can = false
+            self.children[F_TWMG.layer_name("soul",i)].role.draw_major = self
+            self.children[F_TWMG.layer_name("soul",i)].states.hover.can = false
+            self.children[F_TWMG.layer_name("soul",i)].states.click.can = false
         end end
         -- First layer stores info on how many layers actually present
-        self.children[G_TWMG.layer_name("soul",1)].layercount = #_center.soul_pos.layers
+        self.children[F_TWMG.layer_name("soul",1)].layercount = #_center.soul_pos.layers
     end
 end
