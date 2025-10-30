@@ -13,7 +13,7 @@ SMODS.Joker { key = "generic_brand",
     loc_vars = function(self, info_queue, card)
         -- "All shop prices are #1#% off (rounded up)"
         return {vars = {
-            card.ability.extra.discount*100 -- #1#
+            card.ability.extra.discount*100
         }}
     end,
 
@@ -154,10 +154,10 @@ SMODS.Joker { key = "french_fries",
     loc_vars = function(self, info_queue, card)
         -- "+#1# Chips for the next #2# hands; combines with #3# or #4#"
         return {vars = {
-            card.ability.extra.chips,     -- #1#
-            card.ability.extra.countdown, -- #2#
-            localize { type = 'name_text', key = 'j_tiwmig_gravy', set = 'Joker' },        -- #3#
-            localize { type = 'name_text', key = 'j_tiwmig_cheese_curds', set = 'Joker' }, -- #4#
+            card.ability.extra.chips,
+            card.ability.extra.countdown,
+            localize { type = 'name_text', key = 'j_tiwmig_gravy', set = 'Joker' },
+            localize { type = 'name_text', key = 'j_tiwmig_cheese_curds', set = 'Joker' },
         }}
     end,
 
@@ -218,10 +218,10 @@ SMODS.Joker { key = "gravy",
     loc_vars = function(self, info_queue, card)
         -- "+#1# Mult for the next #2# hands; combines with #3# or #4#"
         return {vars = {
-            card.ability.extra.mult,      -- #1#
-            card.ability.extra.countdown, -- #2#
-            localize { type = 'name_text', key = 'j_tiwmig_cheese_curds', set = 'Joker' }, -- #3#
-            localize { type = 'name_text', key = 'j_tiwmig_french_fries', set = 'Joker' }, -- #4#
+            card.ability.extra.mult,
+            card.ability.extra.countdown,
+            localize { type = 'name_text', key = 'j_tiwmig_cheese_curds', set = 'Joker' },
+            localize { type = 'name_text', key = 'j_tiwmig_french_fries', set = 'Joker' },
         }}
     end,
 
@@ -281,10 +281,10 @@ SMODS.Joker { key = "cheese_curds",
     loc_vars = function(self, info_queue, card)
         -- "+$#1# for the next #2# hands; combines with #3# or #4#"
         return {vars = {
-            card.ability.extra.cash,      -- #1#
-            card.ability.extra.countdown, -- #2#
-            localize { type = 'name_text', key = 'j_tiwmig_french_fries', set = 'Joker' }, -- #3#
-            localize { type = 'name_text', key = 'j_tiwmig_gravy', set = 'Joker' },        -- #4#
+            card.ability.extra.cash,
+            card.ability.extra.countdown,
+            localize { type = 'name_text', key = 'j_tiwmig_french_fries', set = 'Joker' },
+            localize { type = 'name_text', key = 'j_tiwmig_gravy', set = 'Joker' },
         }}
     end,
 
@@ -346,10 +346,10 @@ SMODS.Joker { key = "frite_sauce",
     loc_vars = function(self, info_queue, card)
         -- "+#1# Chips and +#2# Mult for the next #3# hands; combines with #4#"
         return {vars = {
-            card.ability.extra.chips,     -- #1#
-            card.ability.extra.mult,      -- #2#
-            card.ability.extra.countdown, -- #3#
-            localize { type = 'name_text', key = 'j_tiwmig_cheese_curds', set = 'Joker' }, -- #4#
+            card.ability.extra.chips,
+            card.ability.extra.mult,
+            card.ability.extra.countdown,
+            localize { type = 'name_text', key = 'j_tiwmig_cheese_curds', set = 'Joker' },
         }}
     end,
 
@@ -404,10 +404,10 @@ SMODS.Joker { key = "cheesy_gravy",
     loc_vars = function(self, info_queue, card)
         -- "+#1# Mult and earn $#2# for the next #3# hands; combines with #4#"
         return {vars = {
-            card.ability.extra.mult,     -- #1#
-            card.ability.extra.cash,     -- #2#
-            card.ability.extra.countdown, -- #3#
-            localize { type = 'name_text', key = 'j_tiwmig_french_fries', set = 'Joker' }, -- #4#
+            card.ability.extra.mult,
+            card.ability.extra.cash,
+            card.ability.extra.countdown,
+            localize { type = 'name_text', key = 'j_tiwmig_french_fries', set = 'Joker' },
         }}
     end,
 
@@ -462,10 +462,10 @@ SMODS.Joker { key = "chips_n_cheese",
     loc_vars = function(self, info_queue, card)
         -- "Earn $#1# and +#2# Chips for the next #3# hands; combines with #4#"
         return {vars = {
-            card.ability.extra.cash,      -- #1#
-            card.ability.extra.chips,     -- #2#
-            card.ability.extra.countdown, -- #3#
-            localize { type = 'name_text', key = 'j_tiwmig_gravy', set = 'Joker' }, -- #4#
+            card.ability.extra.cash,
+            card.ability.extra.chips,
+            card.ability.extra.countdown,
+            localize { type = 'name_text', key = 'j_tiwmig_gravy', set = 'Joker' },
         }}
     end,
 
@@ -522,10 +522,10 @@ SMODS.Joker { key = "poutine",
     loc_vars = function(self, info_queue, card)
         -- "+#1# Chips, +#2# Mult, and earn $#3# for the next #4# hands"
         return {vars = {
-            card.ability.extra.chips,     -- #1#
-            card.ability.extra.mult,      -- #2#
-            card.ability.extra.cash,      -- #3#
-            card.ability.extra.countdown, -- #4#
+            card.ability.extra.chips,
+            card.ability.extra.mult,
+            card.ability.extra.cash,
+            card.ability.extra.countdown,
         }}
     end,
 
@@ -574,7 +574,7 @@ SMODS.Joker { key = "egg",
     loc_vars = function(self, info_queue, card)
         -- "+#1# Chips"
         return {vars = {
-            card.ability.extra.chips, -- #1#
+            card.ability.extra.chips,
         }}
     end,
 
@@ -618,11 +618,11 @@ SMODS.Joker { key = "shotgun",
         return {
             key = key,
             vars = {
-                card.ability.extra.maxshells, -- #1#
-                card.ability.extra.xmult,     -- #2#
-                card.ability.extra.initialshells.blank, -- #3#
-                card.ability.extra.initialshells.live,  -- #4#
-                #card.ability.extra.chamber,  -- #5#
+                card.ability.extra.maxshells,
+                card.ability.extra.xmult,
+                card.ability.extra.initialshells.blank,
+                card.ability.extra.initialshells.live,
+                #card.ability.extra.chamber,
             }
         }
     end,
@@ -745,7 +745,7 @@ SMODS.Joker { key = "commenting_out",
     eternal_compat = true,
     perishable_compat = true,
 
-    -- Main functionality is present in Event tiwmig_inf_j_iter_event
+    -- Main functionality is present in the infinite joker iterator
 }
 
 ------------
