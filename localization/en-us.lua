@@ -166,7 +166,7 @@ dictionary = {
     k_tiwmig_poutine_eating = "Eating...",
     k_tiwmig_poutine_eaten = "Eaten!",
     k_tiwmig_shotgun_blank = "Blank...",
-    k_tiwmig_switch_side = "Side switch!"
+    k_tiwmig_switch_side = "Switch!"
 },
 
 v_dictionary = {
