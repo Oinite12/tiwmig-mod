@@ -123,14 +123,11 @@ local function determine_poutine_fusion_edition(card, target)
     -- Compare
     if card_priority_ohm > target_priority_ohm then
         return card_edition
-    end
-    if target_priority_ohm > card_priority_ohm then
+    elseif target_priority_ohm > card_priority_ohm then
         return target_edition
-    end
-    if card_priority >= target_priority then -- also if card edition == target edition
+    elseif card_priority >= target_priority then -- also if card edition == target edition
         return card_edition
-    end
-    if target_priority > card_priority then -- useless conditional but better for readibility
+    elseif target_priority > card_priority then -- useless conditional but better to give context
         return target_edition
     end
 end
