@@ -25,14 +25,21 @@ end
 
 -- Checks if the player is holding any of the listed cards.
 ---@param keys string[]
----@param count_debuffed boolean
+---@param count_debuffed? boolean
+---@param config? table
 ---@return boolean
-F_TWMG.has_cards = function (keys, count_debuffed)
+F_TWMG.has_cards = function (keys, count_debuffed, config)
     -- Taken from SMODS code
     if not G.jokers or not G.jokers.cards then return false end
 
+    config = config or {}
+
     local key_set = {}
-    for _,key in ipairs(keys) do key_set[key] = true end
+    if config.keys_type == "set" then
+        key_set = keys
+    else
+        for _,key in ipairs(keys) do key_set[key] = true end
+    end
 
     for _, area in ipairs(SMODS.get_card_areas('jokers')) do
         if area.cards then

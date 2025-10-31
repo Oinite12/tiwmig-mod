@@ -97,3 +97,20 @@ function Card:add_to_deck(from_debuff)
         F_TWMG.start_poutine_fusion(self)
     end
 end
+
+local gf_checkbuyspace = G.FUNCS.check_for_buy_space
+function G.FUNCS.check_for_buy_space(card)
+    if card.config.center.poutine_fusion then
+        local fusion_parts = {}
+        for _,recipe in pairs(card.config.center.poutine_fusion) do
+            fusion_parts[recipe[1]] = true
+        end
+        if F_TWMG.has_cards(fusion_parts, false, {keys_type = "set"}) then
+            return true
+        else
+            return gf_checkbuyspace(card)
+        end
+    else
+        return gf_checkbuyspace(card)
+    end
+end
