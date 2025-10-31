@@ -1,3 +1,5 @@
+local simple_event = F_TWMG.add_simple_event
+
 -- Iterate through all Jokers in groups of G_TWMG.infinite_joker_iterator.group_size
 local infinite_joker_iterator = function()
     -- G.STATE == 2 is the main scoring sequence
@@ -86,4 +88,12 @@ function Card:calculate_joker(context) -- THIS is what will be called by various
     end
 
     return return_value
+end
+
+local card_add_hook = Card.add_to_deck
+function Card:add_to_deck(from_debuff)
+    card_add_hook(self, from_debuff)
+    if self.config.center.poutine_fusion then
+        F_TWMG.start_poutine_fusion(self)
+    end
 end

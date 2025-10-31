@@ -53,6 +53,6 @@ function F_TWMG.load_directory(folder_name, condition_function)
 	end
 end
 
-F_TWMG.load_directory("funcs")
+F_TWMG.load_directory("func")
 F_TWMG.load_directory("load_assets")
 F_TWMG.load_directory("items")

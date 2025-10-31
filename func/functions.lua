@@ -58,8 +58,11 @@ F_TWMG.set_generic_discount = function ()
             -- THEN apply discounts
             local generics = SMODS.find_card("j_tiwmig_generic_brand")
             for _,generic in pairs(generics) do
-                shop_card.cost = shop_card.cost - generic.ability.extra.discount
+                shop_card.cost = shop_card.cost*(1 - generic.ability.extra.discount)
             end
+
+            -- Finally do floor
+            shop_card.cost = math.ceil(shop_card.cost)
         end end
     end
 
@@ -76,45 +79,75 @@ end
 ---- POUTINE FUSION ----
 ------------------------
 
+local function determine_poutine_fusion_edition(card, target)
+    local card_edition   = card.edition and card.edition.key
+    local target_edition = target.edition and target.edition.key
+
+    if not card_edition then return target_edition end -- This returns nil if not target_edition
+    if not target_edition then return card_edition end
+
+    local card_edition_obj = G.P_CENTERS[card_edition]
+    local target_edition_obj = G.P_CENTERS[target_edition]
+
+    --[[
+    Edition priority: Editions further down the Collection are prioritized,
+    but editions that increase card limit are further prioritized
+    The bigger the card limit the higher the priority
+    ]]
+    local card_priority = 0
+    local card_priority_ohm = 0 -- ohm > all numbers
+    local target_priority = 0
+    local target_priority_ohm = 0
+
+    -- Determine standard priority
+    for i,edition in ipairs(G.P_CENTER_POOLS.Edition) do
+        if edition == card_edition_obj then
+            card_priority = i
+        end
+        if edition == target_edition_obj then
+            target_priority = i
+        end
+        if card_priority > 0 and target_priority > 0 then
+            break
+        end
+    end
+
+    -- Determine omega priority
+    if card_edition_obj.config and card_edition_obj.config.card_limit then
+        card_priority_ohm = card_edition_obj.config.card_limit
+    end
+    if target_edition_obj.config and target_edition_obj.config.card_limit then
+        target_priority_ohm = target_edition_obj.config.card_limit
+    end
+
+    -- Compare
+    if card_priority_ohm > target_priority_ohm then
+        return card_edition
+    end
+    if target_priority_ohm > card_priority_ohm then
+        return target_edition
+    end
+    if card_priority >= target_priority then -- also if card edition == target edition
+        return card_edition
+    end
+    if target_priority > card_priority then -- useless conditional but better for readibility
+        return target_edition
+    end
+end
+
 -- Fuse two cards into a new product.
 ---@param card Card
 ---@param target Card
 ---@param sum string
 ---@return nil
 F_TWMG.poutine_fusion = function(card, target, sum)
-    local card_edition   = card.edition and card.edition.type
-    local target_edition = target.edition and target.edition.type
-    local sum_edition = {}
-
-    --[[
-    Edition priority:
-    - Negative, if either card or target are
-    - Polychrome, if either card or target are
-    - Holo, if either card or target are
-    - Foil, if either card or target are
-    - Target's edition
-    - Card's edition
-    For modded edition support
-    ]]
-    if card_edition == "negative" or target_edition == "negative" then
-        sum_edition.negative = true
-    elseif card_edition == "polychrome" or target_edition == "polychrome" then
-        sum_edition.polychrome = true
-    elseif card_edition == "holo" or target_edition == "holo" then
-        sum_edition.holo = true
-    elseif card_edition == "foil" or target_edition == "foil" then
-        sum_edition.foil = true
-    elseif target_edition ~= nil then sum_edition[target_edition] = true
-    elseif card_edition ~= nil then sum_edition[card_edition] = true
-    end
-
     -- Pause before doing the fusion for extra oompf
     simple_event('after', 1, function ()
         F_TWMG.food_eat(card) -- Using food_eat for convenience
         F_TWMG.food_eat(target)
         SMODS.add_card{
             key = sum,
-            edition = sum_edition,
+            edition = determine_poutine_fusion_edition(card, target),
             no_edition = true
         }
     end)
@@ -122,26 +155,25 @@ end
 
 -- Checks to see if a card can be fused with any other card.
 ---@param card Card
----@param recipe_table ([string, string])[]
 ---@return nil
-F_TWMG.define_poutine_fusions = function(card, recipe_table)
+F_TWMG.start_poutine_fusion = function(card)
     -- This system grants higher priority to items of lower index
     simple_event('after', 0.25, function ()
-        for __,recipe in ipairs(recipe_table) do
+        for __, recipe in ipairs(card.config.center.poutine_fusion) do
             local other_card_id  = recipe[1]
             local result_card_id = recipe[2]
-            if next(SMODS.find_card(other_card_id)) then
-                local other_card = next(SMODS.find_card(other_card_id)) --[[@as Card]]
-                if not (
-                    card.debuff
-                    or other_card.debuff
-                    or card.ability.being_fused
-                    or other_card.ability.being_fused
-                ) then
-                    card.ability.being_fused = true
-                    other_card.ability.being_fused = true
-                    F_TWMG.poutine_fusion(card, other_card, result_card_id)
-                end
+            local _,other_card = next(SMODS.find_card(other_card_id))
+
+            if other_card and not (
+                card.debuff
+                or other_card.debuff
+                or card.ability.being_fused
+                or other_card.ability.being_fused
+            ) then
+                card.ability.being_fused = true
+                other_card.ability.being_fused = true
+                F_TWMG.poutine_fusion(card, other_card, result_card_id)
+                return
             end
         end
     end)

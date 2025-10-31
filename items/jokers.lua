@@ -6,7 +6,8 @@ local simple_event = F_TWMG.add_simple_event
 SMODS.Joker { key = "generic_brand",
     config = {
         extra = {
-            discount = 3,
+            discount = 0.30,
+            change = 0.10
         },
     },
 
@@ -17,7 +18,8 @@ SMODS.Joker { key = "generic_brand",
         return {
             key = key,
             vars = {
-                card.ability.extra.discount
+                card.ability.extra.discount*100,
+                card.ability.extra.change*100
             }
         }
     end,
@@ -43,8 +45,8 @@ SMODS.Joker { key = "generic_brand",
     end,
 
     calculate = function(self, card, context)
-        if context.beat_boss then
-            card.ability.extra.discount = card.ability.extra.discount - 1
+        if context.beat_boss and context.cardarea == G.jokers then
+            card.ability.extra.discount = card.ability.extra.discount - card.ability.extra.change
             simple_event(nil, nil, function ()
                 card:juice_up()
                 play_sound('generic1', 1, 0.75)
@@ -151,19 +153,16 @@ SMODS.Joker { key = "french_fries",
         return not F_TWMG.has_cards({
             "j_tiwmig_french_fries",
             "j_tiwmig_frite_sauce",
-            "j_tiwmig_chips_n_cheese",
-            "j_tiwmig_poutine"
+            "j_tiwmig_chips_n_cheese"
         }, true)
     end,
 
 
-    add_to_deck = function(self, card, from_debuff)
-        F_TWMG.define_poutine_fusions(card, {
-            {"j_tiwmig_gravy", "j_tiwmig_frite_sauce"},
-            {"j_tiwmig_cheese_curds", "j_tiwmig_chips_n_cheese"},
-            {"j_tiwmig_cheesy_gravy", "j_tiwmig_poutine"}
-        })
-    end,
+    poutine_fusion = {
+        {"j_tiwmig_gravy", "j_tiwmig_frite_sauce"},
+        {"j_tiwmig_cheese_curds", "j_tiwmig_chips_n_cheese"},
+        {"j_tiwmig_cheesy_gravy", "j_tiwmig_poutine"}
+    },
 
     calculate = function(self, card, context)
         if context.joker_main then
@@ -215,18 +214,15 @@ SMODS.Joker { key = "gravy",
         return not F_TWMG.has_cards({
             "j_tiwmig_gravy",
             "j_tiwmig_cheesy_gravy",
-            "j_tiwmig_frite_sauce",
-            "j_tiwmig_poutine"
+            "j_tiwmig_frite_sauce"
         }, true)
     end,
 
-    add_to_deck = function(self, card, from_debuff)
-        F_TWMG.define_poutine_fusions(card, {
-            {"j_tiwmig_cheese_curds", "j_tiwmig_cheesy_gravy"},
-            {"j_tiwmig_french_fries", "j_tiwmig_frite_sauce"},
-            {"j_tiwmig_chips_n_cheese", "j_tiwmig_poutine"}
-        })
-    end,
+    poutine_fusion = {
+        {"j_tiwmig_cheese_curds", "j_tiwmig_cheesy_gravy"},
+        {"j_tiwmig_french_fries", "j_tiwmig_frite_sauce"},
+        {"j_tiwmig_chips_n_cheese", "j_tiwmig_poutine"}
+    },
 
     calculate = function(self, card, context)
         if context.joker_main then
@@ -278,18 +274,15 @@ SMODS.Joker { key = "cheese_curds",
         return not F_TWMG.has_cards({
             "j_tiwmig_cheese_curds",
             "j_tiwmig_chips_n_cheese",
-            "j_tiwmig_cheesy_gravy",
-            "j_tiwmig_poutine"
+            "j_tiwmig_cheesy_gravy"
         }, true)
     end,
 
-    add_to_deck = function(self, card, from_debuff)
-        F_TWMG.define_poutine_fusions(card, {
-            {"j_tiwmig_french_fries", "j_tiwmig_chips_n_cheese"},
-            {"j_tiwmig_gravy", "j_tiwmig_cheesy_gravy"},
-            {"j_tiwmig_frite_sauce", "j_tiwmig_poutine"}
-        })
-    end,
+    poutine_fusion = {
+        {"j_tiwmig_french_fries", "j_tiwmig_chips_n_cheese"},
+        {"j_tiwmig_gravy", "j_tiwmig_cheesy_gravy"},
+        {"j_tiwmig_frite_sauce", "j_tiwmig_poutine"}
+    },
 
     calculate = function(self, card, context)
         if context.joker_main then
@@ -343,11 +336,9 @@ SMODS.Joker { key = "frite_sauce",
         return false
     end,
 
-    add_to_deck = function(self, card, from_debuff)
-        F_TWMG.define_poutine_fusions(card, {
-            {"j_tiwmig_cheese_curds", "j_tiwmig_poutine"}
-        })
-    end,
+    poutine_fusion = {
+        {"j_tiwmig_cheese_curds", "j_tiwmig_poutine"}
+    },
 
     calculate = function(self, card, context)
         if context.joker_main then
@@ -401,11 +392,9 @@ SMODS.Joker { key = "cheesy_gravy",
         return false
     end,
 
-    add_to_deck = function(self, card, from_debuff)
-        F_TWMG.define_poutine_fusions(card, {
-            {"j_tiwmig_french_fries", "j_tiwmig_poutine"}
-        })
-    end,
+    poutine_fusion = {
+        {"j_tiwmig_french_fries", "j_tiwmig_poutine"}
+    },
 
     calculate = function(self, card, context)
         if context.joker_main then
@@ -459,11 +448,9 @@ SMODS.Joker { key = "chips_n_cheese",
         return false
     end,
 
-    add_to_deck = function(self, card, from_debuff)
-        F_TWMG.define_poutine_fusions(card, {
-            {"j_tiwmig_gravy", "j_tiwmig_poutine"}
-        })
-    end,
+    poutine_fusion = {
+        {"j_tiwmig_gravy", "j_tiwmig_poutine"}
+    },
 
     calculate = function(self, card, context)
         if context.joker_main then
